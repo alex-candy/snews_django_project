@@ -1,0 +1,61 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Новости на сайте{% endblock %}
+{% block content %}
+    <div class="features">
+        {% for d in dnews %}
+        <h1>{{ d.1 }}</h1><hr>
+        <p>Добавил: {{ d.2 }}</p>
+        <p>Время добавления: {{ d.3 }}<br><br>Ссылки: <a href="{{ d.4 }}">{{ d.4 }}</a></p><hr>
+           {% if d.6 %}
+                 <img src="/media/{{d.6}}" class="img_view" alt="фото не грузится"><hr>
+                 {% else %}
+                 <img src="/media/ne_naiden.png" class="img_view" alt="нет фотки"><hr>
+                 {% endif %}
+            {% if d.5 %}
+            <video class="video" controls="controls" poster="/media/{{d.6}}">
+            <source src="/media/{{d.5}}"
+               type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+				</video>
+            {% endif %}
+        {% for v in views %}
+        <div class="views_stile"><span>Просмотров: {{ v.11 }}</span></div><hr>
+         {% endfor %}
+        <p>Описание: <br><br>{{ d.7|linebreaks  }}</p><br>
+        {% if request.user.is_superuser %}
+        <div class="update">
+        <a href="{% url 'video_update' d.0 %}">редактировать</a>
+        <a class="delete" href="{% url 'video_delete' d.0 %}">удалить</a>
+        </div><hr>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+            <form action="{% url 'video_koment' d.0 %}"  method="post">
+                 {% csrf_token %}
+                <p>{{form.koment}}</p>
+                <button type="submit">добавить комментарий</button>
+            </form><hr>
+        {% else %}
+        <form action="{% url 'video_koment' d.0 %}">
+                 {% csrf_token %}
+                <p>{{form.koment}}</p>
+                <p>чтобы оставить комментарий, вам необходимо зарегистрироваться</p>
+            </form><button>добавить комментарий</button><hr>
+        {% endif %}
+
+        <p>Комментарии: </p><hr>
+         {% for k in koments %}
+        <div class="comments" ><span><b>{{k.1}}:</b> {{k.2}}
+        {% if request.user.is_authenticated %}
+            {% if k.1 == user1 %}
+            <a class='delete_com' href="{% url 'delete_coment_video' d.0 k.0 %}"> удалить </a></span>
+            {% else %}
+            {% if request.user.is_superuser %}
+            <a class='delete_com' href="{% url 'delete_coment_video' d.0 k.0 %}"> удалить </a></span>
+            {% endif %}
+            {% endif %}
+            {% endif %}
+            </div>
+        <br>
+         {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

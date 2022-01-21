@@ -1,0 +1,20 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Форма по добавлению новости{% endblock %}
+{% block categories %}
+ {% if request.user.is_superuser %}
+ {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="features">
+        <h1>Форма добавления категории</h1><hr>
+        <form method="post" class="create_form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2>{{ otvet }}</h2>
+            <h2>{{ error }}</h2>
+            <br>{{form.category_name}}<br>
+            <span>{{ test }}</span><br>
+            <button type="submit">Добавить</button>
+        </form>
+        <br>
+    </div>
+{% endblock %}

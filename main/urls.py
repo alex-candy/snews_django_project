@@ -1,0 +1,78 @@
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path
+from .views import *
+
+urlpatterns = [
+    path('register/', register, name='register'),
+    path('login/', user_login, name='login'),
+    path('logout/', user_logout, name='logout'),
+    path('', index, name='home'),
+#     #========================================================================
+#     path('about', sotrud, name='about'),
+#     path('sotrud_update/<int:pk>', SotrudUpdate.as_view(), name='sotrud_update'),
+#     path('sotrud_delete/<int:pk>', sotrud_delete, name='sotrud_delete'),
+#     path('create_sotrud', create_sotrud, name='about_create'),
+#==================================================================
+    path('redact', redact, name='redact'),
+    path('show_category/redact', redact, name='redact'),
+    path('show_type/redact', redact, name='redact'),
+    path('detail_video/redact', redact, name='redact'),
+    path('detail_article/redact', redact, name='redact'),
+    path('redact_create', redact_create, name='redact_create'),
+    path('redact_delete/<int:cat_id>', redact_delete, name='redact_delete'),
+    path('update_redact/<int:pk>', RedactUpdate.as_view(), name='redact_update'),
+#========================================================================
+    path('articles', articles, name='articles'),
+    path('articles_poisk', articles_poisk, name='article_poisk'),
+    path('show_category/<int:cat_id>', show_category, name='show_category'),
+    path('detail_article/<int:art_id>', show_article, name='detail_article'),
+    path('detail_koment/<int:art_id>', article_koment, name='article_koment'),
+    path('update_article/<int:pk>', ArticleUpdate.as_view(), name='articles_update'),
+    path('delete_article/<int:art_id>', article_delete, name='articles_delete'),
+    path('delete_coment/<int:art_id>/<int:com_id>', delete_coment_article, name='delete_coment_article'),
+    path('articles_create', articles_create, name='articles_create'),
+    path('articles_old', sort_star_articles, name='sort_star_articles'),
+    path('articles_new', sort_now_articles, name='sort_now_articles'),
+    path('articles_dorab', sort_dorab_articles, name='sort_dorab_articles'),
+    path('articles_prower', sort_prower_articles, name='sort_prower_articles'),
+    path('articles_skryt', sort_skryt_articles, name='sort_skryt_articles'),
+ #============================================================================
+    path('videos', videos, name='videos'),
+    path('video_poisk', video_poisk, name='video_poisk'),
+    path('show_type/<int:vid_id>', show_type, name='show_type'),
+    path('detail_video/<int:art_id>', show_video, name='detail_video'),
+    path('video_koment/<int:art_id>', video_koment, name='video_koment'),
+    path('update_video/<int:pk>', VideoUpdate.as_view(), name='video_update'),
+    path('delete_video/<int:art_id>', video_delete, name='video_delete'),
+path('delete_coment_v/<int:art_id>/<int:com_id>', delete_coment_video, name='delete_coment_video'),
+    path('video_create', video_create, name='video_create'),
+    path('video_old', sort_star_video, name='sort_star_video'),
+    path('video_new', sort_now_video, name='sort_now_video'),
+    path('video_dorab', sort_dorab_video, name='sort_dorab_video'),
+    path('video_prower', sort_prower_video, name='sort_prower_video'),
+    path('video_skryt', sort_skryt_video, name='sort_skryt_video'),
+#=================================================================================
+#     path('news_home', news_home, name='news_home'),
+#     path('criminal_news', criminal_news, name='criminal'),
+#     path('cultur_news', cultur_news, name='cultur'),
+#     path('politik_news', politik_news, name='politik'),
+#     path('sience_news', sience_news, name='sience'),
+#     path('sport_news', sport_news, name='sport'),
+#     path('create', create, name='create'),
+#     # path('<int:pk>', News.as_view(), name='detail_news'),
+#     # path('kriminal/<slug:slug>',show_news_kriminal, name='detail_news_kriminal'),
+#     # path('sport/<slug:slug>',show_news_sport, name='detail_news_sport'),
+#     # path('politik/<slug:slug>',show_news_politik, name='detail_news_politik'),
+#     # path('nauk/<slug:slug>',show_news_nauk, name='detail_news_nauk'),
+#     # path('kultur/<slug:slug>',show_news_kultur, name='detail_news_kultur'),
+#     path('news_main/<slug:slug>',show_news_main, name='detail_news_main'),
+#     path('news_koment/<slug:slug>',news_koment, name='news_koment'),
+#     path('news_home_poisk', news_home_poisk, name='news_home_poisk'),
+#     path('news_home_now', news_sort_now, name='sort_now_news'),
+#     path('news_home_star', news_sort_star, name='sort_star_news'),
+#     path('news_update/<slug:slug>', news_update, name='news_update'),
+#     path('news_delete/<slug:slug>', news_delete, name='news_delete'),
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

@@ -1,0 +1,18 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Редактирование категорий{% endblock %}
+{% block content %}
+    <div class="features">
+        <div class="redact">
+        <h1>Редактировать категории</h1><hr>
+        <button  onclick="window.location.href = '{% url 'redact_create' %}';">добавить категорию</button><hr>
+         {% for cat in categor %}
+            <p><b>{{cat.id}} | {{cat.category_name}}</b>
+        <button  onclick="window.location.href = '{% url 'redact_update' cat.id %}';">редактировать</button>
+        <button  onclick="window.location.href = '{% url 'redact_delete' cat.id  %}';">удалить</button>
+        </p>
+        <br>
+        {% endfor %}
+        </div>
+        <hr>
+    </div>
+{% endblock %}

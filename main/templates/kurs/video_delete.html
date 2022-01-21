@@ -1,0 +1,31 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Удалить статью{% endblock %}
+{% block content %}
+    <div class="features">
+        {% for d in dnews %}
+        <h1>Вы действительно хотите удалить видео "{{ d.1 }}"?</h1><hr>
+       <form method="post" class="create_form">
+           {% csrf_token %}
+           <button type="submit">удалить видео</button>
+        </form><br>
+        <div class="update">
+        <a class="otmena" href="{% url 'detail_video' d.0  %}">отмена</a>
+        </div>
+        <br>
+  <h1>{{ d.1 }}</h1><hr>
+        <p>Добавил: {{ d.2 }}</p><hr>
+        <p>Время добавления: {{ d.3 }}<br><br>Ссылки: <a href="#">{{ d.4 }}</a></p><hr>
+           {% if d.6 %}
+                 <img src="/media/{{d.6}}" class="img_view" alt="фото не грузится"><hr>
+                 {% else %}
+                 <img src="/media/ne_naiden.png" class="img_view" alt="нет фотки"><hr>
+                 {% endif %}
+            <video class="video" controls="controls" poster="/media/photos/logo.png">
+            <source src="/media/videos/CG_урок-1.mp4"
+               type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+				</video><hr>
+        <p> Описание:<br> <br>{{ d.7 }}</p><br>
+
+        {% endfor %}
+    </div>
+{% endblock %}

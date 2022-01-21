@@ -1,0 +1,22 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Новости на сайте{% endblock %}
+{% block content %}
+    <div class="features">
+        {% for d in dnews %}
+        <h1>{{ d.1 }}</h1><hr>
+        <p>Время последнего редактирования: {{ d.3 }}</p><hr>
+        {% if d.4 %}
+        <img src="/media/{{d.4}}" alt=""><hr>
+        {% endif %}
+        <p>{{ d.2 }}</p><hr>
+        <h1>Вы действительно хотите удалить новость "{{ d.1 }}"?</h1><hr>
+       <form method="post" class="create_form">
+            {% csrf_token %}
+            <button type="submit">удалить новость</button>
+        </form><br>
+        <div class="update">
+        <a class="otmena" href="{% url 'detail_news_main' d.5  %}">отмена</a>
+        <div class="update">
+        {% endfor %}
+    </div>
+{% endblock %}

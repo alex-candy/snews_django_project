@@ -1,0 +1,23 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Новости на сайте{% endblock %}
+{% block content %}
+    <div class="features">
+        {% for d in dnews %}
+        <h1>{{ d.1 }}</h1><hr>
+        <p>Дата публикации: {{ d.3 }}</p><hr>
+        <img src="/media/{{d.4}}" alt="не найдено"><hr>
+        <p>{{ d.2 }}</p><hr>
+                <h1>Форма редактирования новости</h1><hr>
+        <form method="post" class="create_form">
+            {% csrf_token %}
+            <span>Впишите поле, которое хотите отредактировать(фото,заголовок,текст): </span><br>{{form.pole}}<br>
+            <br>
+            <span>Впишите новую информацию(если это фото, то путь к нему):</span>{{form.redact}}<br>
+            <br>
+            <span>{{ error }}</span>
+            <button type="submit">редактировать статью</button>
+        </form>
+        <br>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Удалить статью{% endblock %}
+{% block content %}
+    <div class="features">
+        {% for el in dnews %}
+        <div class="sotrudn">
+            <form method="post" class="create_form">
+            {% csrf_token %}
+            <button type="submit">удалить сотрудника</button>
+        </form><br>
+        <div class="update">
+        <a class="otmena" href="{% url 'about' %}">отмена</a>
+        {% if el.1 %}
+        <img class='sotrud_foto' src="/media/{{el.foto}}" alt="фото не грузится">
+        {% else %}
+        <img class='sotrud_foto' src="/media/ne_naiden.png" alt="нет фотки">
+        {% endif %}
+        <p><b>{{ el.2 }} {{ el.3 }}</b></p><hr>
+         <div class="about">
+        <p>{{ el.4 }}</p><br>
+        <p>{{ el.5 }}</p><hr>
+         </div>
+        <h1>Вы действительно хотите удалить сотрудника "{{ el.2 }} {{ el.3 }}"?</h1><hr>
+        </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

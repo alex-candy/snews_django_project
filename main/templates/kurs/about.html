@@ -1,0 +1,28 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Про нас{% endblock %}
+{% block content %}
+    <div class="features">
+        <h1>Cотрудники Snews</h1><hr>
+        <div class="sotrudn">
+        {% for el in sotrud %}
+        {% if el.foto %}
+        <img class='sotrud_foto' src="/media/{{el.foto}}" alt="фото не грузится">
+        {% else %}
+        <img class='sotrud_foto' src="/media/ne_naiden.png" alt="нет фотки">
+        {% endif %}
+        <p><b>{{ el.firstname }} {{ el.secondname }}</b></p><hr>
+         <div class="about">
+        <p>{{ el.kontakts }}</p><br>
+        <p>{{ el.role }}</p><hr>
+         </div>
+        {% if request.user.is_superuser %}
+        <div class="update">
+        <a href="{% url 'sotrud_update' el.id %}">редактировать</a>
+        <a class="delete" href="{% url 'sotrud_delete' el.id %}">удалить</a><hr>
+        {% endif %}
+            {% endfor %}
+        </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'kurs/layout.html' %}
+
+{% block title %}
+Вход
+{% endblock %}
+
+{% block content %}
+<div class="register">
+<h1>Вход</h1><hr>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Вход</button>
+</form>
+</div>
+{% endblock %}

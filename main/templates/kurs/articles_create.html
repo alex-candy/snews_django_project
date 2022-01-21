@@ -1,0 +1,30 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Форма по добавлению новости{% endblock %}
+{% block categories %}
+ {% if request.user.is_superuser %}
+ {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="features">
+        <h1>Форма добавления статьи</h1><hr>
+        <form method="post" class="create_form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2>{{ error }}</h2>
+            <h2>{{ otvet }}</h2>
+            <span>Заголовок: </span><br>{{form.title}}<br>
+            <span>Источник: </span><br>{{form.from_place}}<br>
+            <span>Фото:</span>{{form.photo}}<br>
+            <br>
+            <span>Контент:</span>{{form.full_text}}<br>
+            <br>
+            <span>Категория:</span>{{form.category}}<br>
+            <br>
+            <span>Состояние:</span>{{form.condition}}<br>
+            <br>
+            <span>Тип источника:</span>{{form.source}}<br>
+            <span>{{ test }}</span><br>
+            <button type="submit">Добавить статью</button>
+        </form>
+        <br>
+    </div>
+{% endblock %}

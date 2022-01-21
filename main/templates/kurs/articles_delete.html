@@ -1,0 +1,27 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Удалить статью{% endblock %}
+{% block content %}
+    <div class="features">
+        {% for d in dnews %}
+        <h1>Вы действительно хотите удалить статью "{{ d.1 }}"?</h1><hr>
+       <form method="post" class="create_form">
+           {% csrf_token %}
+           <button type="submit">удалить статью</button>
+        </form><br>
+        <div class="update">
+        <a class="otmena" href="{% url 'detail_article' d.0  %}">отмена</a>
+        </div>
+        <br>
+        <h1>{{ d.1 }}</h1><hr>
+        <p>Добавил: {{ d.2 }}<br><br>Время добавления: {{ d.4 }}</p><hr>
+        <p>Источники: {{ d.3 }}</p><hr>
+           {% if d.5 %}
+                 <img src="/media/{{d.5}}" alt="фото не грузится"><hr>
+                 {% else %}
+                 <img src="/media/ne_naiden.png" alt="нет фотки"><hr>
+                 {% endif %}
+        <p>Текст статьи:<br><br>{{ d.6 }}</p><br>
+
+        {% endfor %}
+    </div>
+{% endblock %}

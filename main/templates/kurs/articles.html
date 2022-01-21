@@ -1,0 +1,99 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}{{ Статьи }}{% endblock %}
+{% block categories %}
+        <div class="categories">
+            <ul>
+       <li><a href="{%url 'articles' %}">Главная</a></li>
+           {% for c in categor %}
+          <li><a href="{%url 'show_category' c.id %}">{{ c.category_name }}</a></li>
+            {% endfor %}
+            </ul>
+        </div><br><hr>
+{% endblock %}
+{% block content %}
+    <div class="features">
+        <h1>Новостные статьи</h1>
+        <div class="option">
+        <ul>
+            {% if request.user.is_superuser %}
+            <li><a href="{% url 'articles_create' %}" class="dobaw_now">добавить статью</a></li>
+            <li><form class="poisk1" action="{% url 'article_poisk' %}" method="post">
+                {% csrf_token %}
+                {{ form.poisk }}
+                <button type="submit" class="btn_poisk">Поиск</button>
+            </form></li>
+            {% else %}
+            <li><a href="{% url 'sort_now_articles' %}">cначала новые</a><span> |</span>
+             <a href="{% url 'sort_star_articles' %}">cначала старые</a>
+            <li><form class="poisk3" action="{% url 'article_poisk' %}" method="post">
+                {% csrf_token %}
+                {{ form.poisk }}
+                <button type="submit" class="btn_poisk">Поиск</button>
+            </form></li>
+            {% endif %}
+        </ul><hr>
+             {% if request.user.is_superuser %}
+            <ul>
+             <li><a href="{% url 'sort_now_articles' %}">cначала новые</a><span> |</span>
+             <a href="{% url 'sort_star_articles' %}">cначала старые</a>
+                <span> |</span><a href="{% url 'sort_skryt_articles' %}"> скрытые</a><span> |</span>
+             <a href="{% url 'sort_prower_articles' %}">требующие проверки</a><span> |</span>
+                 <a href="{% url 'sort_dorab_articles' %}">требующие доработки</a>
+             </li>
+            </ul>
+            <hr>
+             {% endif %}
+
+        </div>
+        <div>
+               {% for el in popular %}
+            <button class="popular" onclick="window.location.href = '{% url 'detail_article' el.0 %}';">
+             <div >
+                 <h3 class="popular_h3">Самое просматриваемое</h3><hr>
+                 {% if el.5 %}
+                 <img src="/media/{{el.5}}" alt="фото не грузится">
+                 {% else %}
+                 <img src="/media/ne_naiden.png" alt="нет фотки">
+                 {% endif %}
+                <h3>{{ el.1}}</h3><br>
+                <p>{{ el.6|truncatechars:500}}</p>
+                 <p class="autor">Добавил: <b>{{ el.2}}</b></p>
+             </div>
+            </button>
+            {% endfor %}
+        </div>
+
+        {% if news %}
+            {% for el in page_obj %}
+            <button class="stat" onclick="window.location.href = '{% url 'detail_article' el.0 %}';">
+
+             <div >
+                <h3>{{ el.1|truncatechars:70}}</h3><hr>
+                 <p class="autor">Добавил: <b>{{ el.2}}</b></p>
+                 {% if el.5 %}
+                 <img src="/media/{{el.5}}" alt="фото не грузится">
+                 {% else %}
+                 <img src="/media/ne_naiden.png" alt="нет фотки">
+                 {% endif %}
+                <p>{{ el.6|truncatechars:150}}</p>
+             </div>
+            </button>
+            {% endfor %}
+        {% else %}
+            <p>У вас нет записей</p>
+        {% endif %}
+    </div>
+<div class="page_nav">
+    <ul>
+        {% for p in page_obj.paginator.page_range %}
+            {% if page_obj.number == p %}
+        <li class="page">{{p}}</li>
+            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+        <li>
+            <a href="?page={{ p }}">{{ p }}</a>
+        </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

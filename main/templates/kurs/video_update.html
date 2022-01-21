@@ -1,0 +1,31 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Форма по добавлению статьи{% endblock %}
+{% block categories %}
+        {% if request.user.is_superuser %}
+        {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="features">
+        <h1>Форма редактирования видео</h1><hr>
+        <form method="post" class="create_form">
+            {% csrf_token %}
+            <h2>{{ error }}</h2>
+            <span>Заголовок: </span><br>{{form.title}}<br>
+            <span>Ссылки: </span><br>{{form.url}}<br>
+            <span>Превью: </span>{{form.preview}}<br>
+            <br>
+            <span>Видеофайл(если такой есть):</span>{{form.video_file}}<br>
+            <br>
+            <span>Описание: </span>{{form.full_text}}<br>
+            <br>
+            <span>Тип видеопотока: </span>{{form.type_video}}<br>
+            <br>
+            <span>Состояние: </span>{{form.condition}}<br>
+            <br>
+            <span>Ресурс размещения: </span>{{form.placing}}<br>
+            <span>{{ test }}</span><br>
+            <button type="submit">Редактировать видео</button>
+        </form>
+        <br>
+    </div>
+{% endblock %}

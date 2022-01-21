@@ -1,0 +1,36 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Форма по добавлению сотрудника{% endblock %}
+{% block categories %}
+ {% if request.user.is_superuser %}
+              {% if request.user.is_superuser %}
+        <div class="categories">
+            <ul>
+          <li class="cat_span"><span>Добавить:</span></li>
+          <li><a href="{% url 'create' %}">Новость</a></li>
+          <li><a href="{% url 'articles_create' %}">Статью </a></li>
+          <li><a href="{% url 'about_create' %}">Сотрудника</a></li>
+          <li class="cat_span"><span>Редактировать/удалить:</span></li>
+          <li><a href="{% url 'news_home' %}">Новость </a></li>
+          <li><a href="{% url 'articles' %}">Статью </a></li>
+           <li><a href="{% url 'about' %}">Сотрудника </a></li>
+            </ul>
+        </div>
+        {% endif %}
+ {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="features">
+        <h1>Форма добавления сотрудника</h1><hr>
+        <form method="post" class="create_form">
+            {% csrf_token %}
+            <span>Имя: </span><br>{{form.firstname}}<br>
+            <span>Фамилия: </span><br>{{form.secondname}}<br>
+            <span>Фото:</span>{{form.foto}}<br>
+            <span>Контакты:</span>{{form.kontakts}}<br>
+            <span>Должность:</span>{{form.role}}<br>
+            <span>{{ error }}</span>
+            <button type="submit">Добавить сотрудника</button>
+        </form>
+        <br>
+    </div>
+{% endblock %}

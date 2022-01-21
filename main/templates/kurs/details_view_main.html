@@ -1,0 +1,35 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Новости на сайте{% endblock %}
+{% block content %}
+    <div class="features">
+        {% for d in dnews %}
+        <h1>{{ d.1 }}</h1><hr>
+        <p>Время последнего редактирования: {{ d.3 }}</p><hr>
+        {% if d.4 %}
+        <img src="/media/{{d.4}}" alt=""><hr>
+        {% endif %}
+        <p>{{ d.2 }}</p><br>
+        {% if request.user.is_superuser %}
+        <div class="update">
+        <a href="{% url 'news_update' d.5 %}">редактировать</a>
+        <a class="delete" href="{% url 'news_delete' d.5 %}">удалить</a>
+        <div class="update">
+        {% endif %}
+            {% if request.user.is_authenticated %}
+            <form action="{% url 'news_koment' d.5 %}"  method="post">{% csrf_token %}
+            <p>{{form.koment}}</p>
+            <button type="submit">добавить комментарий</button>
+            </form><hr>
+            {% else %}
+             <form action="{% url 'news_koment' d.5 %}">{% csrf_token %}
+            <p>{{form.koment}}</p>
+            <p>чтобы добавить комментарий, вам необходимо зарегистрироваться</p>
+            </form><button>добавить комментарий</button><hr>
+            {% endif %}
+        {% endfor %}
+        <p>Комментарии: </p><hr>
+         {% for k in koments %}
+        <div class="comments" ><span><b>{{k.1}}:</b> {{k.2}}</span></div><br>
+         {% endfor %}
+    </div>
+{% endblock %}

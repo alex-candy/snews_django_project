@@ -1,0 +1,39 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Форма по добавлению статьи{% endblock %}
+{% block categories %}
+        {% if request.user.is_superuser %}
+        <div class="categories">
+            <ul>
+          <li class="cat_span"><span>Добавить:</span></li>
+          <li><a href="{% url 'create' %}">Новость</a></li>
+          <li><a href="{% url 'articles_create' %}">Статью </a></li>
+          <li><a href="{% url 'about_create' %}">Сотрудника</a></li>
+          <li class="cat_span"><span>Редактировать/удалить:</span></li>
+          <li><a href="{% url 'news_home' %}">Новость </a></li>
+          <li><a href="{% url 'articles' %}">Статью </a></li>
+           <li><a href="{% url 'about' %}">Сотрудника </a></li>
+            </ul>
+        </div>
+        {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="features">
+        <h1>Форма добавления новости</h1><hr>
+        <form method="post" class="create_form">
+            {% csrf_token %}
+            <h2>{{ error }}</h2>
+            <span>Категория [наука | спорт | культура | политика | криминал]: </span><br>{{form.categor}}<br>
+            <br>
+            <span>Заголовок: </span><br>{{form.title}}<br>
+            <br>
+            <span>URL: </span><br>{{form.slug}}<br>
+            <br>
+            <span>Путь к фото(photos/[...].html):</span>{{form.foto}}<br>
+            <br>
+            <span>Контент: </span>{{form.content}}<br>
+            <br>
+            <button type="submit">Добавить новость</button>
+        </form>
+        <br>
+    </div>
+{% endblock %}

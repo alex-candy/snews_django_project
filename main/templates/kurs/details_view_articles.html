@@ -1,0 +1,54 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Новости на сайте{% endblock %}
+{% block content %}
+    <div class="features">
+        {% for d in dnews %}
+        <h1>{{ d.1 }}</h1><hr>
+        <p>Добавил: {{ d.2 }}</p>
+
+        <p>Время добавления: {{ d.4 }}<br><br> Источники: <a href="{{ d.3 }}">{{ d.3 }}</a></p><hr>
+                {% if d.5 %}
+                 <img src="/media/{{d.5}}" class="img_view" alt="фото не грузится"><hr>
+                 {% endif %}
+        {% for v in views %}
+          <div class="views_stile"><span>Просмотров: {{ v.10 }}</span></div><hr>
+        {% endfor %}
+        <p>Тeкст статьи:<br><br>{{ d.6|linebreaks }}</p><br>
+        {% if request.user.is_superuser %}
+        <div class="update">
+        <a href="{% url 'articles_update' d.0 %}">редактировать</a>
+        <a class="delete" href="{% url 'articles_delete' d.0 %}">удалить</a>
+        </div><hr>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+            <form action="{% url 'article_koment' d.0 %}"  method="post">
+                 {% csrf_token %}
+                <p>{{form.koment}}</p>
+                <button type="submit">добавить комментарий</button>
+            </form><hr>
+        {% else %}
+        <form action="{% url 'article_koment' d.0 %}">
+                 {% csrf_token %}
+                <p>{{form.koment}}</p>
+                <p>чтобы оставить комментарий, вам необходимо зарегистрироваться</p>
+            </form><button>добавить комментарий</button><hr>
+        {% endif %}
+
+        <p>Комментарии: </p><hr>
+         {% for k in koments %}
+        <div class="comments" ><span><b>{{k.1}}:</b> {{k.2|ljust:"300"}}
+        {% if request.user.is_authenticated %}
+            {% if k.1 == user1 %}
+            <a class='delete_com' href="{% url 'delete_coment_article' d.0 k.0 %}"> удалить </a></span>
+            {% else %}
+            {% if request.user.is_superuser %}
+            <a class='delete_com' href="{% url 'delete_coment_article' d.0 k.0 %}"> удалить </a></span>
+            {% endif %}
+            {% endif %}
+            {% endif %}
+            </div>
+        <br>
+         {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

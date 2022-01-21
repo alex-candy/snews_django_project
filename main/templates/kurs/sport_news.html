@@ -1,0 +1,60 @@
+{% extends 'kurs/layout.html' %}
+{% block title %}Новости спорта{% endblock %}
+{% block categories %}
+        <div class="categories">
+            <ul>
+         {% for c in categor %}
+          <li><a href="{%url c.url_categor %}">{{ c.name_categor }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+{% endblock %}
+{% block content %}
+    <div class="features">
+        <h1>Новости спорта</h1>
+         <div class="option">
+        <ul>
+            <li><a href="{% url 'sort_now_news' %}">cначала новые</a><span> |</span>
+             <a href="{% url 'sort_star_news' %}">cначала старые</a></li>
+            {% if request.user.is_superuser %}
+            <li><a href="{% url 'create' %}" class="dobaw_now">добавить новость</a></li>
+            {% endif %}
+            <li><form action="{% url 'news_home_poisk' %}" method="post">
+                {% csrf_token %}
+                {{ form.poisk }}
+                <button type="submit" class="btn_poisk">Поиск</button>
+            </form></li>
+        </ul><hr>
+        </div>
+        {% if news %}
+            {% for el in news %}
+            <button class="news" onclick="window.location.href = '{% url 'detail_news_main' el.slug %}';">
+             <div >
+                <h3>{{ el.title }}</h3><hr>
+                 {% if el.foto %}
+                 <img src="/media/{{el.foto}}" alt="фото не грузится">
+                 {% else %}
+                 <img src="/media/ne_naiden.png" alt="нет фотки">
+                 {% endif %}
+                <p>{{ el.text|linebreaks|truncatechars:100}}</p>
+             </div>
+            </button>
+            {% endfor %}
+        {% else %}
+            <p>У вас нет записей</p>
+        {% endif %}
+    </div>
+<div class="page_nav">
+    <ul>
+        {% for p in page_obj.paginator.page_range %}
+            {% if page_obj.number == p %}
+        <li class="page">{{p}}</li>
+            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+        <li>
+            <a href="?page={{ p }}">{{ p }}</a>
+        </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
